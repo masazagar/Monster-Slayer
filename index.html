@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@3.4.9/dist/vue.global.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Monster Slayer</h1>
+    </header>
+    <div id="game">
+      <section id="monster" class="container">
+        <h2>Monster Health</h2>
+        <div class="healthbar">
+          <div class="healthbar__value" :style="MonsterHealthBarStyle"></div>
+        </div>
+      </section>
+      <section id="player" class="container">
+        <h2>Your Health</h2>
+        <div class="healthbar">
+          <div class="healthbar__value" :style="PlayerHealthBarStyle"></div>
+        </div>
+      </section>
+      <section class="container" v-if="monsterHealth <= 0 || playerHealth <= 0">
+        <h1>GAME OVER!</h1>
+        <h3 v-if="monsterHealth <= 0">You won! 🎉</h3>
+        <h3 v-else-if="playerHealth <= 0">You lost!</h3>
+        <h3 v-else-if="playerHealth <= 0 && monsterHealth <= 0">It's a draw</h3>
+        <!-- to reload the page and start again-->
+        <form>
+          <button>Start New Game!</button>
+        </form>
+      </section>
+      <section id="controls">
+        <button
+          @click="attackMonster"
+          :disabled="playerHealth <=0  || monsterHealth <=0"
+        >
+          ATTACK
+        </button>
+        <button
+          :disabled="currentRound % 3 !==0 || playerHealth <=0  || monsterHealth <=0"
+          @click="specialAttack"
+        >
+          SPECIAL ATTACK
+        </button>
+        <button
+          :disabled="playerHealth <=0  || monsterHealth <=0"
+          @click="healing"
+        >
+          HEAL
+        </button>
+        <button
+          @click="surrender"
+          :disabled="playerHealth <=0  || monsterHealth <=0"
+        >
+          SURRENDER
+        </button>
+      </section>
+      <section id="log" class="container">
+        <h2>Battle Log</h2>
+        <ul>
+          <li v-for="logMessage in logMessages">
+            {{logMessage.actionBy}} - {{ logMessage.actionType }} - {{
+            logMessage.actionValue }}
+          </li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>
