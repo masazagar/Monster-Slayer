@@ -1,1 +1,1 @@
-Vue app of a simple RPG game made in Vue.js
+Simple app of an RPG game made in Vue.js
